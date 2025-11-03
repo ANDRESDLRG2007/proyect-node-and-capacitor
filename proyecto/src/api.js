@@ -45,6 +45,73 @@ function shuffleArray(array) {
 // Función para buscar letras en la API (usa 'term' y parsea XML si es necesario)
 async function searchLyrics(title, artist) {
     try {
+        // Si estamos en desarrollo local, usar el proxy relativo para evitar CORS
+        const isDevProxy = (typeof window !== 'undefined') && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+
+        if (isDevProxy) {
+            const params = new URLSearchParams();
+            params.set('term', title || '');
+            if (artist) params.set('artist', artist);
+            const proxyUrl = `/api/lyrics?${params.toString()}`;
+            const response = await fetch(proxyUrl, { method: 'GET' });
+
+            if (!response.ok) {
+                console.warn('searchLyrics(proxy): respuesta no OK', response.status, response.statusText);
+                return null;
+            }
+
+            const text = await response.text();
+            // process below as XML/JSON
+            // Intentar parsear como JSON si llega así
+            let parsed = null;
+            try {
+                parsed = JSON.parse(text);
+            } catch (e) {
+                parsed = null;
+            }
+
+            if (parsed) {
+                const payload = parsed.result || parsed;
+                const lyrics = payload.lyrics || payload.lyric || payload.text || payload.lyrics_body || '';
+                const songTitle = payload.song || payload.title || title;
+                const songArtist = payload.artist || artist || '';
+                const album = payload.album || payload.release || '';
+
+                return {
+                    title: songTitle,
+                    artist: songArtist,
+                    album: album,
+                    lyrics: lyrics
+                };
+            }
+
+            if (typeof DOMParser !== 'undefined') {
+                const parser = new DOMParser();
+                const xml = parser.parseFromString(text, 'application/xml');
+                const resultNode = xml.querySelector('result') || xml.documentElement;
+                const getText = (candidates) => {
+                    for (const name of candidates) {
+                        const el = resultNode.querySelector(name);
+                        if (el && el.textContent && el.textContent.trim().length > 0) return el.textContent.trim();
+                    }
+                    return '';
+                };
+                const lyrics = getText(['lyrics', 'lyric', 'text', 'lyrics_body', 'lyric_text']);
+                const songTitle = getText(['song', 'title', 'track']);
+                const songArtist = getText(['artist', 'singer']);
+                const album = getText(['album', 'release']);
+
+                return {
+                    title: songTitle || title,
+                    artist: songArtist || artist || '',
+                    album: album || '',
+                    lyrics: lyrics || ''
+                };
+            }
+
+            return { title, artist: artist || '', album: '', lyrics: text || '' };
+        }
+
         // Construir URL con credenciales y parámetros (usar 'term' como en tu ejemplo)
         const params = new URLSearchParams();
         params.set('uid', UID);
