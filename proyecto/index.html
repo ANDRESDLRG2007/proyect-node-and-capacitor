@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#9333ea">
+    <title>Trivia Musical - Adivina la Canción</title>
+    <link rel="stylesheet" href="./src/style.css">
+</head>
+<body>
+    <div id="app" class="app-container">
+        <!-- Menu Principal -->
+        <div id="menuScreen" class="screen active">
+            <div class="card">
+                <div class="icon-wrapper">
+                    <div class="icon-bg">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 18V5l12-2v13"></path>
+                            <circle cx="6" cy="18" r="3"></circle>
+                            <circle cx="18" cy="16" r="3"></circle>
+                        </svg>
+                    </div>
+                </div>
+                <h1 class="title">Trivia Musical</h1>
+                <p class="subtitle">¿Puedes adivinar la canción por la letra?</p>
+                
+                <button id="playBtn" class="btn-primary">
+                    Jugar Ahora
+                </button>
+                
+                <div class="info-text">
+                    5 canciones aleatorias por adivinar
+                </div>
+            </div>
+        </div>
+
+        <!-- Pantalla de Carga -->
+        <div id="loadingScreen" class="screen">
+            <div class="card">
+                <div class="loader"></div>
+                <p class="loading-text">Preparando preguntas...</p>
+                <p class="loading-subtext">Buscando canciones increíbles</p>
+            </div>
+        </div>
+
+        <!-- Pantalla de Juego -->
+        <div id="gameScreen" class="screen">
+            <div class="card">
+                <!-- Header -->
+                <div class="game-header">
+                    <div class="progress-badge">
+                        <span id="questionCounter">1/5</span>
+                    </div>
+                    <div class="score-badge">
+                        <svg class="trophy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+                            <path d="M4 22h16"></path>
+                            <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+                            <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+                            <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+                        </svg>
+                        <span id="scoreDisplay">0</span>
+                    </div>
+                </div>
+
+                <!-- Pista -->
+                <div class="hint-box">
+                    <div class="hint-header">
+                        <svg class="volume-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                        </svg>
+                        <span id="hintLabel">PISTA</span>
+                    </div>
+                    <p id="hintText" class="hint-text"></p>
+                    <p id="artistText" class="artist-text"></p>
+                </div>
+
+                <!-- Opciones -->
+                <div id="optionsContainer" class="options-container">
+                    <!-- Las opciones se generarán dinámicamente -->
+                </div>
+
+                <!-- Botón Siguiente -->
+                <button id="nextBtn" class="btn-next hidden">
+                    Siguiente Pregunta
+                </button>
+            </div>
+        </div>
+
+        <!-- Pantalla de Resultados -->
+        <div id="resultsScreen" class="screen">
+            <div class="card">
+                <div class="icon-wrapper">
+                    <div class="icon-bg trophy-bg">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+                            <path d="M4 22h16"></path>
+                            <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+                            <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+                            <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <h2 class="results-title">¡Juego Terminado!</h2>
+                <div class="results-box">
+                    <p class="results-label">Tu puntuación</p>
+                    <p id="finalScore" class="final-score">0/5</p>
+                    <p id="resultMessage" class="result-message"></p>
+                </div>
+                <button id="playAgainBtn" class="btn-primary">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 2v6h-6"></path>
+                        <path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path>
+                        <path d="M3 22v-6h6"></path>
+                        <path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path>
+                    </svg>
+                    Jugar de Nuevo
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./src/main.js"></script>
+</body>
+</html>
