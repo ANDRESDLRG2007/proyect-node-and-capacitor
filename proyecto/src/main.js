@@ -86,26 +86,147 @@ function mezclarOpciones(array) {
 
 // Preguntas de respaldo
 function generateFallbackQuestions() {
-    return [
+    // Preguntas por defecto: 12 difíciles de música + 3 de vallenato
+    const data = [
+        // 12 preguntas difíciles de música
         {
-            question: "¿Qué artista canta 'Rolling in the Deep'?",
-            correctAnswer: "Adele",
-            options: ["Adele", "Rihanna", "Lady Gaga", "Sia"],
+            question: '¿Qué compositor italiano escribió la ópera "La Traviata"?',
+            correctAnswer: 'Giuseppe Verdi',
+            options: ['Giuseppe Verdi', 'Giacomo Puccini', 'Gioachino Rossini', 'Richard Wagner'],
             hint: '',
-            artist: 'Adele',
-            isLyric: false,
-            correct: 0
+            artist: '',
+            isLyric: false
         },
         {
-            question: "¿Qué álbum lanzó Michael Jackson en 1982?",
-            correctAnswer: "Thriller",
-            options: ["Bad", "Dangerous", "Thriller", "Off the Wall"],
+            question: '¿En qué año se lanzó el álbum "Kind of Blue" de Miles Davis?',
+            correctAnswer: '1959',
+            options: ['1959', '1956', '1963', '1960'],
             hint: '',
-            artist: 'Michael Jackson',
-            isLyric: false,
-            correct: 2
+            artist: '',
+            isLyric: false
         },
+        {
+            question: '¿Cuál es la tonalidad principal de la Sinfonía n.º5 de Beethoven?',
+            correctAnswer: 'Do menor',
+            options: ['Do menor', 'Re mayor', 'Mi bemol mayor', 'Sol menor'],
+            hint: '',
+            artist: '',
+            isLyric: false
+        },
+        {
+            question: '¿Qué término describe la ornamentación vocal con múltiples notas sobre una sola sílaba (común en soul/gospel)?',
+            correctAnswer: 'Melisma',
+            options: ['Melisma', 'Glissando', 'Vibrato', 'Staccato'],
+            hint: '',
+            artist: '',
+            isLyric: false
+        },
+        {
+            question: '¿Qué banda lanzó el álbum conceptual "The Dark Side of the Moon"?',
+            correctAnswer: 'Pink Floyd',
+            options: ['Pink Floyd', 'The Rolling Stones', 'Led Zeppelin', 'The Who'],
+            hint: '',
+            artist: '',
+            isLyric: false
+        },
+        {
+            question: '¿Qué instrumento tiene teclas y cuerdas que son golpeadas por martillos?',
+            correctAnswer: 'Piano',
+            options: ['Piano', 'Clave', 'Arpa', 'Cítara'],
+            hint: '',
+            artist: '',
+            isLyric: false
+        },
+        {
+            question: '¿Quién compuso "La Primavera" dentro de "Las Cuatro Estaciones"?',
+            correctAnswer: 'Antonio Vivaldi',
+            options: ['Antonio Vivaldi', 'Johann Sebastian Bach', 'Wolfgang Amadeus Mozart', 'Ludwig van Beethoven'],
+            hint: '',
+            artist: '',
+            isLyric: false
+        },
+        {
+            question: '¿Cuál es el nombre real del artista conocido como Sting (ex-The Police)?',
+            correctAnswer: 'Gordon Sumner',
+            options: ['Gordon Sumner', 'Paul Simon', 'David Byrne', 'Robert Plant'],
+            hint: '',
+            artist: '',
+            isLyric: false
+        },
+        {
+            question: '¿Qué ritmo latino fue popularizado por Tito Puente y Machito?',
+            correctAnswer: 'Mambo',
+            options: ['Mambo', 'Samba', 'Bachata', 'Bolero'],
+            hint: '',
+            artist: '',
+            isLyric: false
+        },
+        {
+            question: '¿Qué término musical describe la repetición de una idea a diferentes alturas?',
+            correctAnswer: 'Secuencia',
+            options: ['Secuencia', 'Ostinato', 'Cadencia', 'Modulación'],
+            hint: '',
+            artist: '',
+            isLyric: false
+        },
+        {
+            question: '¿Qué productor británico es conocido por su trabajo con The Beatles (p. ej. "Sgt. Pepper")?',
+            correctAnswer: 'George Martin',
+            options: ['George Martin', 'Phil Spector', 'Brian Eno', 'Quincy Jones'],
+            hint: '',
+            artist: '',
+            isLyric: false
+        },
+        {
+            question: '¿Cuántos semitonos hay en una quinta justa?',
+            correctAnswer: '7',
+            options: ['7', '5', '6', '8'],
+            hint: '',
+            artist: '',
+            isLyric: false
+        },
+
+        // 3 preguntas de vallenato
+        {
+            question: '¿Quién compuso la canción vallenata "La Casa en el Aire"?',
+            correctAnswer: 'Rafael Escalona',
+            options: ['Rafael Escalona', 'Diomedes Díaz', 'Carlos Vives', 'Leandro Díaz'],
+            hint: '',
+            artist: '',
+            isLyric: false
+        },
+        {
+            question: '¿Qué cantante vallenato es conocido como "El Cacique de La Junta"?',
+            correctAnswer: 'Diomedes Díaz',
+            options: ['Diomedes Díaz', 'Carlos Vives', 'Juancho Rois', 'Kaleth Morales'],
+            hint: '',
+            artist: '',
+            isLyric: false
+        },
+        {
+            question: '¿Qué acordeonero acompañó frecuentemente a Diomedes Díaz y es reconocido en el vallenato?',
+            correctAnswer: 'Juancho Rois',
+            options: ['Juancho Rois', 'Alejo Durán', 'Emiliano Zuleta', 'Nicolas Elías'],
+            hint: '',
+            artist: '',
+            isLyric: false
+        }
     ];
+
+    // Mezclar opciones de cada pregunta y calcular el índice correcto
+    return data.map(q => {
+        const opts = mezclarOpciones([...q.options]);
+        const correct = opts.indexOf(q.correctAnswer);
+        return {
+            question: q.question,
+            correctAnswer: q.correctAnswer,
+            options: opts,
+            hint: q.hint || '',
+            artist: q.artist || '',
+            isLyric: q.isLyric || false,
+            correct: correct >= 0 ? correct : 0
+        };
+    });
 }
 
 // Elementos del DOM
