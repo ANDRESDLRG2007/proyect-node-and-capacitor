@@ -71,8 +71,12 @@ async function generateQuestions() {
     }
 
     // Si la API falla, usa preguntas de respaldo
-    if (questions.length === 0) return generateFallbackQuestions();
-    return questions;
+    if (questions.length === 0) {
+        return mezclarOpciones(generateFallbackQuestions());
+    }
+
+    // Devolver preguntas en orden aleatorio
+    return mezclarOpciones(questions);
 }
 
 // Función auxiliar para mezclar opciones
