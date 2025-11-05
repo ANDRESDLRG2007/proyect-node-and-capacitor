@@ -1,6 +1,6 @@
 {
-  "appId": "com.tuapp.trivia",
-  "appName": "trivia-musical",
+  "appId": "Com.Movilesapp.TriviaMusical",
+  "appName": "Trivia Musical",
   "webDir": "dist",
   "bundledWebRuntime": false
 }
